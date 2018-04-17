@@ -3,6 +3,10 @@ pipeline {
         docker { image 'oraclelinux:latest' }
     }
     stages {
+        stage('Checkout'){
+          checkout scm
+        }
+
         stage('Test') {
             steps {
                 sh 'mkdir /space'
