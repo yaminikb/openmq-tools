@@ -12,8 +12,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mkdir /scratch'
-                sh 'yum install -y git bc subversion unzip tar wget autofs showmount rng-tools which sendmail bind-utils net-tools whois rusers-server ntp libaio zip libXext.x86_64 libXrender.x86_64 libXtst.x86_64'
-                sh 'wget --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
+                sh 'yum install -y git bc unzip tar wget which sendmail ntp libaio zip'
+                sh 'wget --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/jdk-8u162-linux-x64.tar.gz'
                 sh 'tar -xvzf jdk-8u162-linux-x64.tar.gz -C /scratch/jdk'
                 sh 'wget http://redrockdigimark.com/apachemirror/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz'
                 sh 'tar -xvzf apache-maven-3.5.2-bin.tar.gz -C /scratch/mvn'
