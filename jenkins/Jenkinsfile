@@ -1,6 +1,8 @@
+#!groovy
+
 pipeline {
     agent {
-        docker { image 'oraclelinux:7-slim' }
+        docker { image 'maven:3.5.0' }
     }
     stages {
         stage('Checkout'){
@@ -9,17 +11,33 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('BuildMQ') {
             steps {
-                sh 'mkdir -p /scratch'
-                sh 'mkdir -p /usr/share/man/man1'
-                sh 'mkdir -p /usr/share/info/dir'
-                sh 'yum install -y git bc unzip tar wget which sendmail zip java-1.8.0-openjdk-devel && rm -rf /var/cache/yum'
-                sh 'wget http://redrockdigimark.com/apachemirror/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz'
-                sh 'tar -xvzf apache-maven-3.5.2-bin.tar.gz -C /scratch'
-                sh '/scratch/apache-maven-3.5.2/bin/mvn -version'
-                sh 'df -h'
+                git url: 'https://github.com/eclipse-ee4j/openmq.git'
+                sh 'cd mq/src/buildcfg/tools/ri/fscontext; jar cf fscontext.jar -C fscontext_jar .'
+                sh 'cd mq/src/share/help; jar cf helpfiles.zip -C helpfiles .'
+                sh 'mvn -f mq/pom.xml clean install'
+            }
+        }  
+        
+        stage('BackupMQBits') {
+            steps {
+                stash includes: 'mq/dist/bundles/mq*.zip', name: 'zips'
+            }
+        }
+        
+        stage('CheckoutTests') {
+            steps {
+                git url: 'https://github.com/javaee/glassfish.git'
+            }
+        }
+        
+        stage('RunJMSDevTests') {
+            steps {
+                unstash 'zips'
+                sh 'scripts/jms-dev-tests.sh'
             }
         }
     }
 }
+
