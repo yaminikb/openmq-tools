@@ -4,12 +4,14 @@ pipeline {
     }
     stages {
         stage('Checkout'){
-          checkout scm
+            steps {
+                checkout scm
+            }
         }
 
         stage('Test') {
             steps {
-                sh 'mkdir /space'
+                sh 'mkdir /scratch'
                 sh 'yum install -y git bc subversion unzip tar wget autofs showmount rng-tools which sendmail bind-utils net-tools whois rusers-server ntp libaio zip libXext.x86_64 libXrender.x86_64 libXtst.x86_64'
                 sh 'wget --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz'
                 sh 'tar -xvzf jdk-8u161-linux-x64.tar.gz -C /scratch/jdk'
