@@ -11,13 +11,14 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'mkdir -p /scratch/mvn'
+                sh 'mkdir -p /scratch'
                 sh 'mkdir -p /usr/share/man/man1'
                 sh 'mkdir -p /usr/share/info/dir'
                 sh 'yum install -y git bc unzip tar wget which sendmail zip java-1.8.0-openjdk-devel && rm -rf /var/cache/yum'
                 sh 'wget http://redrockdigimark.com/apachemirror/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz'
-                sh 'tar -xvzf apache-maven-3.5.2-bin.tar.gz -C /scratch/mvn'
-                sh '/scratch/mvn/bin/mvn -version'
+                sh 'tar -xvzf apache-maven-3.5.2-bin.tar.gz -C /scratch'
+                sh '/scratch/apache-maven-3.5.2/bin/mvn -version'
+                sh 'df -h'
             }
         }
     }
