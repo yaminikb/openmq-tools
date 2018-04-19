@@ -13,7 +13,7 @@ pipeline {
 
        stage('Setup') {
            steps {
-               sh 'yum install -y wget'
+               sh 'apt-get install wget'
            }
        }
         stage('BuildMQ') {
