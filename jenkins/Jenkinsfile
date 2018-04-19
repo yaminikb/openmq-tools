@@ -11,11 +11,13 @@ pipeline {
             }
         }
 
+/*
        stage('Setup') {
            steps {
                sh 'apt-get -qq -y install wget'
            }
        }
+*/
         stage('BuildMQ') {
             steps {
                 git url: 'https://github.com/eclipse-ee4j/openmq.git'
