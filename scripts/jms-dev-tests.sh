@@ -1,3 +1,9 @@
+#!/bin/sh -x
+
+echo $PWD
+echo $WORKSPACE 
+ls
+
 S1AS_HOME=$WORKSPACE/glassfish5/glassfish
 export S1AS_HOME
 

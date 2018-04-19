@@ -17,7 +17,6 @@ pipeline {
                 sh 'cd mq/src/buildcfg/tools/ri/fscontext; jar cf fscontext.jar -C fscontext_jar .'
                 sh 'cd mq/src/share/help; jar cf helpfiles.zip -C helpfiles .'
                 sh 'mvn --version'
-                sh 'ant -v'
                 sh 'mvn -f mq/pom.xml clean install'
             }
         }  
@@ -38,9 +37,12 @@ pipeline {
             steps {
                 unstash 'zips'
                 git url: 'https://github.com/yaminikb/openmq-tools.git'
-                sh "${env.WORKSPACE}/../${env.JOB_NAME}@script/scripts/jms-dev-tests.sh"
+                sh 'find .'
+                sh "chmod +x ${env.WORKSPACE}/scripts/jms-dev-tests.sh"
+                sh "${env.WORKSPACE}/scripts/jms-dev-tests.sh"
             }
         }
     }
 }
+
 
