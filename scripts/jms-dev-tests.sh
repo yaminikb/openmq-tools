@@ -4,7 +4,9 @@ echo $PWD
 echo $WORKSPACE 
 ls
 
-S1AS_HOME=$WORKSPACE/stage/glassfish5/glassfish
+STAGE=$WORKSPACE/stage
+mkdir $STAGE
+S1AS_HOME=$STAGE/glassfish5/glassfish
 export S1AS_HOME
 
 APS_HOME=$WORKSPACE/appserver/tests/appserv-tests
@@ -21,8 +23,8 @@ MQ_BUNDLE=mq5_1_1.zip
 export MQ_BUNDLE
 
 #Install GlassFish
-echo "cd workspace $WORKSPACE/stage"
-cd ${WORKSPACE}/stage
+echo "cd workspace $STAGE"
+cd $STAGE
 wget -q $GF_BUILD/$GF_BUNDLE 
 echo "unzip $GF_BUNDLE"
 unzip -q $GF_BUNDLE
@@ -30,19 +32,19 @@ cd ..
 rm -f GF_BUNDLE
 
 #Overwrite MQ installation in GlassFish
-cd ${WORKSPACE}/stage/glassfish5
+cd $STAGE/glassfish5
 rm -rf mq
 wget -q $MQ_BUILD/$MQ_BUNDLE
 unzip -q $MQ_BUNDLE
 
-cd ${WORKSPACE}/stage/glassfish5/glassfish/modules
-cp -f ${WORKSPACE}/stage/glassfish5/mq/lib/jms.jar javax.jms-api.jar
-cd ${WORKSPACE}/stage/glassfish5/glassfish/lib/install/applications
+cd ${S1AS_HOME}/modules
+cp -f $STAGE/glassfish5/mq/lib/jms.jar javax.jms-api.jar
+cd ${S1AS_HOME}/lib/install/applications
 
 rm -rf jmsra
 mkdir jmsra
 cd jmsra
-cp ${WORKSPACE}/stage/glassfish5/mq/lib/imqjmsra.rar .
+cp $STAGE/glassfish5/mq/lib/imqjmsra.rar .
 jar vxf imqjmsra.rar
 
 #Turn security manager before running the tests
