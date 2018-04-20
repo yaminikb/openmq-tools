@@ -34,8 +34,7 @@ rm -f GF_BUNDLE
 #Overwrite MQ installation in GlassFish
 cd $STAGE/glassfish5
 rm -rf mq
-wget -q $MQ_BUILD/$MQ_BUNDLE
-unzip -q $MQ_BUNDLE
+unzip -q $MQ_BUILD/$MQ_BUNDLE
 
 cd ${S1AS_HOME}/modules
 cp -f $STAGE/glassfish5/mq/lib/jms.jar javax.jms-api.jar
@@ -58,9 +57,6 @@ $S1AS_HOME/bin/asadmin stop-domain
 cd $APS_HOME/devtests/jms
 
 #Trigger the tests
-#TODO: Remove the javac1.7 setting when ant 1.9.x or 1.10.x is available.
-#      (The current ant 1.8.4 is not compatible with JDK 8)
-#ant -Dbuild.compiler=javac1.7 all
 ant all
 
 echo "$S1AS_HOME/bin/asadmin list-domains"
