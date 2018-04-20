@@ -40,18 +40,35 @@ pipeline {
         
         stage('RunJMSDevTests') {
             steps {
-//                unstash 'zips'
-                dir('tools') {
-                    git url: 'https://github.com/yaminikb/openmq-tools.git'
-                }
+                parallel (
+                    "JMSDev1" : {
+                        dir('tools') {
+                            git url: 'https://github.com/yaminikb/openmq-tools.git'
+                        }
                 
-                git url: 'https://github.com/javaee/glassfish.git'
-                sh "chmod +x ${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
-                sh "${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
+                        git url: 'https://github.com/javaee/glassfish.git'
+                        sh "chmod +x ${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
+                        sh "${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
+                    },
+                    "JMSDev2" : {
+                        sh 'echo $PWD'
+                        sh 'ls'
+                    }
+                )
             }
         }
     }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'appserver/tests/appserv-tests/devtests/jms/*.output', fingerprint: true
+//          appserver/tests/appserv-tests/devtests/jms/count.txt,glassfish5/glassfish/domains/domain1/*
+            deleteDir()
+        }
+    }
+
 }
+
 
 
 
