@@ -11,13 +11,16 @@ pipeline {
             }
         }
 
-/*
+
        stage('Setup') {
-           steps {
-               sh 'apt-get -qq -y install wget'
-           }
-       }
-*/
+            steps {
+                 sh 'uname -a'
+                 sh 'cat /etc/issue'
+                 sh 'apt-get update && apt-get -qq -y install wget ant'
+                 sh 'ant -version'
+             }
+        }
+        
         stage('BuildMQ') {
             steps {
                 git url: 'https://github.com/eclipse-ee4j/openmq.git'
@@ -27,16 +30,10 @@ pipeline {
                 sh 'mvn -f mq/pom.xml clean install'
             }
         }  
-        
 /*
         stage('BackupMQBits') {
             steps {
                 stash includes: 'mq/dist/bundles/mq*.zip', name: 'zips'
-            }
-        }
-        
-        stage('CheckoutTests') {
-            steps {
             }
         }
 */
@@ -47,13 +44,14 @@ pipeline {
                 dir('tools') {
                     git url: 'https://github.com/yaminikb/openmq-tools.git'
                 }
+                
                 git url: 'https://github.com/javaee/glassfish.git'
-//                env.PATH = "${tool 'ant-newest'}/bin:${env.PATH}"
                 sh "chmod +x ${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
                 sh "${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
             }
         }
     }
 }
+
 
 

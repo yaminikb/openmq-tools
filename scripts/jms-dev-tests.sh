@@ -5,7 +5,7 @@ echo $WORKSPACE
 ls
 
 STAGE=$WORKSPACE/stage
-mkdir $STAGE
+rm -rf $STAGE && mkdir $STAGE
 S1AS_HOME=$STAGE/glassfish5/glassfish
 export S1AS_HOME
 
@@ -49,7 +49,7 @@ jar vxf imqjmsra.rar
 
 #Turn security manager before running the tests
 echo "$S1AS_HOME/bin/asadmin start-domain"
-time $S1AS_HOME/bin/asadmin start-domain 
+$S1AS_HOME/bin/asadmin start-domain 
 echo "$S1AS_HOME/bin/asadmin create-jvm-options -Djava.security.manager"
 $S1AS_HOME/bin/asadmin create-jvm-options -Djava.security.manager
 echo "$S1AS_HOME/bin/asadmin stop-domain"
