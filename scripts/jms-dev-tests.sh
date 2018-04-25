@@ -13,7 +13,7 @@ APS_HOME=$WORKSPACE/appserver/tests/appserv-tests
 export APS_HOME
 mkdir -p $APS_HOME
 svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/config $APS_HOME/config
-svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/devtests/jms $APS_HOME/jms
+svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/devtests/jms $APS_HOME/devtests/jms
 
 #Download latest Glassfish nightly build
 GF_BUILD=https://download.oracle.com/glassfish/5.0.1/nightly
