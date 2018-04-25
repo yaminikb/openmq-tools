@@ -12,7 +12,7 @@ export S1AS_HOME
 APS_HOME=$WORKSPACE/appserver/tests/appserv-tests
 export APS_HOME
 mkdir -p $APS_HOME
-svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/devtests/config $APS_HOME/config
+svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/config $APS_HOME/config
 svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/devtests/jms $APS_HOME/jms
 
 #Download latest Glassfish nightly build
