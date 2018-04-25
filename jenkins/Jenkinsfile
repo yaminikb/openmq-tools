@@ -21,6 +21,7 @@ pipeline {
              }
         }
         
+/*
         stage('BuildMQ') {
             steps {
                 git url: 'https://github.com/eclipse-ee4j/openmq.git'
@@ -30,7 +31,6 @@ pipeline {
                 sh 'mvn -f mq/pom.xml clean install'
             }
         }  
-/*
         stage('BackupMQBits') {
             steps {
                 stash includes: 'mq/dist/bundles/mq*.zip', name: 'zips'
@@ -47,6 +47,9 @@ pipeline {
                         }
                 
                         git url: 'https://github.com/javaee/glassfish.git'
+                        sh 'mkdir -p appserver/tests/appserv-tests/devtests/'
+                        sh 'svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/config appserver/tests/appserv-tests/devtests/config'
+                        sh 'svn export https://github.com/javaee/glassfish/trunk/appserver/tests/appserv-tests/devtests/jms appserver/tests/appserv-tests/devtests/jms'
                         sh "chmod +x ${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
                         sh "${env.WORKSPACE}/tools/scripts/jms-dev-tests.sh"
                     },
