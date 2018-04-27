@@ -2,7 +2,10 @@
 
 pipeline {
     agent {
-        docker { image 'maven:3.5.3-jdk-8-slim' }
+        dockerfile {
+            dir 'jenkins'
+            label 'glass-slave1'
+        }
     }
     stages {
         stage('Checkout'){
